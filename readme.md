@@ -41,18 +41,17 @@ Working configuration files preserved for recovery and MacBook Pro deployment.
 ```
 local-ai-implementation/
 ├── backups/
-│   ├── working-deployment-20250708/    # Tested working configuration
-│   │   ├── .env                        # Complete environment config
-│   │   ├── docker-compose.yml          # Service definitions
-│   │   ├── start_services.py           # Startup script
-│   │   ├── running-containers.txt      # Container state snapshot
-│   │   └── docker-images.txt           # Image reference
-│   ├── README.md                       # This documentation
-│   └── implementation-guide.md         # Complete setup guide
-└── documentation/
-    ├── mac-studio-specifics.md         # Mac-specific implementation notes
-    ├── service-urls.md                 # Working URL reference
-    └── troubleshooting.md              # Common issues and solutions
+│   ├── docker-images-before.txt           # Pre-deployment state
+│   ├── docker-state-before.txt            # Pre-deployment state
+│   ├── docker_completion_fix_guide.md     # Docker setup troubleshooting
+│   ├── local-ai-implementation-guide.md   # Complete Mac Studio guide
+│   └── working-deployment-20250708/       # Tested working configuration
+│       ├── docker-compose.yml             # Service definitions
+│       ├── docker-images.txt              # Container images reference
+│       ├── env-config.txt                 # Complete environment config
+│       ├── running-containers.txt         # Container state snapshot
+│       └── start_services.py              # Startup script
+└── README.md                              # This documentation
 ```
 
 ## System Status
@@ -114,16 +113,24 @@ docker compose -p localai down
 ## Backup Configuration
 
 ### Environment Credentials
+Complete working credentials stored in `env-config.txt`:
 - **Postgres Password**: QLDfail2win2025
 - **Dashboard Username**: cholloway
 - **Dashboard Password**: QLDfail2win2025
 - **N8N Encryption Key**: 7a9f2c8e5b1d6f3a9c7e4b8f2d5a9c6e3f7b1d4a8c5e9f2b6d3a7c4e8f1b5d9
 
 ### Critical Files Backed Up
-- ✅ `.env` (7,619 bytes) - Complete working configuration
+- ✅ `env-config.txt` (7,619 bytes) - Complete working configuration
 - ✅ `docker-compose.yml` (12,151 bytes) - Service definitions
 - ✅ `start_services.py` (11,202 bytes) - Startup script  
 - ✅ System state snapshots for reference
+
+## Documentation Files
+
+### Available Guides
+- **`local-ai-implementation-guide.md`**: Complete step-by-step Mac Studio deployment with upgrade instructions
+- **`docker_completion_fix_guide.md`**: Docker Desktop setup and troubleshooting for macOS
+- **System state files**: Pre-deployment snapshots for reference
 
 ## Upgrade Procedures
 
@@ -163,37 +170,39 @@ docker ps --format "table {{.Names}}\t{{.Ports}}\t{{.Status}}"
 ## MacBook Pro Deployment Ready
 
 ### Preparation Complete
-- **Configuration Files**: Exact working setup preserved
-- **Environment Variables**: Tested credentials available
-- **Command Reference**: Mac-specific commands documented
-- **URL Patterns**: Working addresses confirmed
+- **Configuration Files**: Exact working setup preserved in `working-deployment-20250708/`
+- **Environment Variables**: Tested credentials available in `env-config.txt`
+- **Command Reference**: Mac-specific commands documented in implementation guide
+- **URL Patterns**: Working addresses confirmed and documented
 
 ### Deployment Process
-1. Clone repository to MacBook Pro
-2. Copy working configuration from backup folder
-3. Run identical deployment commands
-4. Verify same URL patterns work
+1. Clone this repository to MacBook Pro
+2. Copy working configuration from `backups/working-deployment-20250708/`
+3. Rename `env-config.txt` to `.env` in local deployment
+4. Run identical deployment commands from implementation guide
 
 ## Source Attribution
 
 ### Based On
-- **Original Project**: https://github.com/coleam00/local-ai-packaged
-- **Creator**: Cole (coleam00)
+- **Original Project**: [local-ai-packaged](https://github.com/coleam00/local-ai-packaged) by Cole (coleam00)
+- **Original Repository**: https://github.com/coleam00/local-ai-packaged
+- **Creator Credit**: All credit for the original Local AI Package goes to Cole
 - **Implementation**: Chris Holloway customisation for Mac Studio M3 Ultra
 
 ### Customisations
-- Mac Studio specific command adaptations
-- URL pattern optimisations for macOS
-- MCP Memory Sync integration testing
+- Mac Studio specific command adaptations (`python3` vs `python`)
+- URL pattern optimisations for macOS (`127.0.0.1` vs `localhost`)
+- MCP Memory Sync integration testing and isolation verification
 - Comprehensive backup and recovery procedures
+- Docker Desktop troubleshooting and setup documentation
 
 ## Technical Requirements
 
 ### System Specifications
-- **Mac Studio**: M3 Ultra, 96GB RAM (tested)
+- **Mac Studio**: M3 Ultra, 96GB RAM (tested and verified)
 - **MacBook Pro**: M2 Max, 32GB RAM (deployment ready)
 - **Docker Desktop**: 28.3.0 or later
-- **Python**: 3.13.5 (python3 command required)
+- **Python**: 3.13.5 (python3 command required on macOS)
 
 ### Dependencies
 - Docker Desktop installed and running
@@ -207,7 +216,7 @@ docker ps --format "table {{.Names}}\t{{.Ports}}\t{{.Status}}"
 ```bash
 # Restore from backup configuration
 cd ~/LocalAI/local-ai-packaged
-cp ~/path-to-backup/.env ./
+cp ~/path-to-backup/env-config.txt ./.env
 cp ~/path-to-backup/docker-compose.yml ./
 
 # Restart services
@@ -226,14 +235,14 @@ wc -l /Users/chrisholloway/Claude/memory/claude_memory.json
 # Complete reset if needed
 docker compose -p localai down
 docker system prune -f
-# Restore from backup files
+# Restore from backup files in this repository
 ```
 
 ## Future Development
 
 ### Next Phase Opportunities
-- **MacBook Pro deployment** using proven configuration
-- **Workflow synchronisation** between local and production n8n
+- **MacBook Pro deployment** using proven configuration from this repository
+- **Workflow synchronisation** between local and production n8n instances
 - **Model optimisation** for different hardware profiles
 - **Advanced monitoring** and alerting systems
 
@@ -245,11 +254,11 @@ docker system prune -f
 
 ## Support & Documentation
 
-### Complete Guides Available
-- **Implementation Guide**: Step-by-step Mac Studio deployment
-- **Service Reference**: Complete URL and command documentation  
-- **Troubleshooting**: Common issues and proven solutions
-- **MCP Integration**: Isolation testing and verification procedures
+### Available in This Repository
+- **Implementation Guide**: Complete step-by-step Mac Studio deployment
+- **Docker Setup Guide**: Troubleshooting and configuration for macOS
+- **Working Configuration**: All files needed for successful deployment
+- **System State References**: Pre-deployment snapshots and container states
 
 ### Status Monitoring
 - **Container Health**: `docker ps` for service status
@@ -257,10 +266,17 @@ docker system prune -f
 - **MCP Sync Status**: fswatch and LaunchD service verification
 - **File Integrity**: MD5 hash verification for memory files
 
+## Attribution & Credits
+
+**Original Work**: This implementation is based entirely on the excellent work by [Cole (coleam00)](https://github.com/coleam00) and his [local-ai-packaged](https://github.com/coleam00/local-ai-packaged) repository. All credit for the core Local AI Package, Docker configurations, and service orchestration goes to Cole.
+
+**This Repository Contains**: Mac-specific customisations, deployment documentation, working configurations, and backup procedures for successful implementation on Apple Silicon Macs.
+
 ---
 
 **Implementation Date**: July 8, 2025  
 **System**: Mac Studio M3 Ultra, 96GB RAM  
 **Status**: Production Ready with Complete Backup Protection  
 **Documentation**: Chris Holloway - Internet Initiatives  
+**Original Creator**: Cole (coleam00) - https://github.com/coleam00/local-ai-packaged  
 **Repository**: Independent from claude-memory with full isolation
